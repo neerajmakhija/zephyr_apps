@@ -7,7 +7,9 @@
 #include <stdio.h>
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
+#include <zephyr/logging/log.h>
 
+LOG_MODULE_REGISTER(blinky_play, LOG_LEVEL_DBG);
 /* 1000 msec = 1 sec */
 #define SLEEP_TIME_MS   1000
 
@@ -62,10 +64,13 @@ static void blue_led_blink_thread(void *p1 , void *p2 , void *p3)
 		if(k_sem_take(&button_sem, K_MSEC(period_ms)) != 0)
 		{
 			if(!paused)
+			{
 				gpio_pin_toggle_dt(led);
+			}
 		}
 		else {
 			paused = !paused;
+			LOG_INF("button short press, paused=%d", paused);
 			gpio_pin_set_dt(led, 0);
 		}
 
@@ -75,6 +80,7 @@ static void blue_led_blink_thread(void *p1 , void *p2 , void *p3)
 static void debounce_handler(struct k_work *work)
 {
     if (gpio_pin_get_dt(&button) == 1) {     /* still pressed after settling */
+		LOG_DBG("debounce fired, pin=%d", gpio_pin_get_dt(&button));
         k_sem_give(&button_sem);
     }
 }
