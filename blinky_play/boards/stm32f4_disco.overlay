@@ -1,6 +1,15 @@
 / {
     aliases {
+        led0 = &red_led_5;
         led1 = &green_led_4;
-		led2 = &blue_led_6;
+        led2 = &blue_led_6;
+        nextion-uart = &usart3;
     };
+};
+
+&usart3 {
+    pinctrl-0 = <&usart3_tx_pd8 &usart3_rx_pd9>;
+    pinctrl-names = "default";
+    current-speed = <9600>;
+    status = "okay";
 };
