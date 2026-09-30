@@ -122,7 +122,7 @@ static void sensor_thread(void *p1, void *p2, void *p3)
 
 			struct env_reading msg = {
 				.uptime_ms = (uint32_t)k_uptime_get(),
-				.temp_cdeg = die_temp_correct(t_rep_mdeg, vdda_mv) / 10,
+				.temp_cdeg = die_temp_correct(t_rep_mdeg, vdda_mv) / 10 + CONFIG_ENVNODE_TEMP_OFFSET_CDEG,
 				.vdda_mv   = vdda_mv,
 			};
 

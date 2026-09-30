@@ -1,0 +1,10 @@
+mainmenu "EnvNode"
+
+config ENVNODE_TEMP_OFFSET_CDEG
+	int "Offset added to the chip temperature, in 0.01 C"
+	default -900
+	help
+	  Rough correction from die temperature to room temperature.
+	  Measure once against a thermometer: offset = room - displayed.
+
+source "Kconfig.zephyr"
